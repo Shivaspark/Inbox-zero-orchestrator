@@ -84,7 +84,7 @@ Download the JSON file, rename it to credentials.json, and place it in the root 
 
 Important: In the "OAuth Consent Screen" settings, add your email as a Test User.
 
-##🏃‍♂️ Usage
+## 🏃‍♂️ Usage
 Run the Streamlit application locally:
 
 ```bash
@@ -112,7 +112,7 @@ inbox-zero-orchestrator/
 ├── requirements.txt      # List of dependencies
 └── README.md             # Project documentation
 ```
-##⚠️ Troubleshooting
+## ⚠️ Troubleshooting
 
 RefreshError: invalid_grant
 
@@ -124,7 +124,7 @@ Fix: Delete the token.json file and restart the app to re-login.
 
 Ensure your email address is added as a Test User in the Google Cloud Console "OAuth Consent Screen" section.
 
-##🔮 Future Roadmap
+## 🔮 Future Roadmap
 
 1. Chrome Extension: Porting this logic to a browser extension for client-side, decentralized privacy.
 

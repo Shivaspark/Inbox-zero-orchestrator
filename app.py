@@ -5,6 +5,8 @@ import os.path
 import base64
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
+import io
+import contextlib
 
 # Google & Gmail Libraries
 from google.auth.transport.requests import Request
@@ -274,7 +276,12 @@ if st.session_state.emails and len(st.session_state.emails) > st.session_state.s
             async def run_agent_task():
                 return await st.session_state.runner.run_debug(full_prompt)
             
-            response_events = asyncio.run(run_agent_task())
+            # Capture stdout to show in the UI if needed
+            stdout_capture = io.StringIO()
+            with contextlib.redirect_stdout(stdout_capture):
+                response_events = asyncio.run(run_agent_task())
+            
+            captured_terminal_output = stdout_capture.getvalue()
             
             action_taken = False # Flag to track if any tool was called
             
@@ -324,5 +331,11 @@ if st.session_state.emails and len(st.session_state.emails) > st.session_state.s
         st.subheader("Agent Final Report")
         if first_agent_dialogue:
             st.success(first_agent_dialogue) # Using st.success for better visibility if it's the main point
+        elif captured_terminal_output:
+            st.warning("Agent dialogue not strictly detected. Displaying the last line of terminal output:")
+            # Get the last non-empty line
+            lines = [line for line in captured_terminal_output.strip().split('\n') if line.strip()]
+            last_line = lines[-1] if lines else "No text found."
+            st.success(last_line)
         else:
-            st.info("Look at the terminal for the output")
+            st.info("No output detected. Look at the terminal for more details.")

@@ -1,0 +1,13 @@
+# Environment / local files
+.env
+token.json
+
+# Python
+__pycache__/
+*.py[cod]
+venv/
+.env.local
+
+# Editor / OS
+.vscode/
+.DS_Store

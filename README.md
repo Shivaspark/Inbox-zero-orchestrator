@@ -68,8 +68,9 @@ pip install streamlit google-adk google-generativeai google-auth google-auth-oau
 ```
 ### 3. Configure Credentials
 A. Gemini API Key
-Create a file named .env in the root folder and add your key:
+Copy `./.env.example` to `./.env`, add your real key locally, and do NOT commit `./.env` (it is git-ignored):
 ```
+# .env (local, DO NOT COMMIT)
 GOOGLE_API_KEY=your_actual_api_key_here
 ```
 
@@ -107,8 +108,8 @@ streamlit run app.py
 inbox-zero-orchestrator/
 ├── app.py                # Main application logic (Streamlit + Agent)
 ├── credentials.json      # OAuth 2.0 Client ID (You must provide this)
-├── .env                  # Environment variables (API Key)
-├── token.json            # Auto-generated user auth token (Git-ignored)
+├── .env.example          # Example env (safe to commit)
+├── token.json            # Auto-generated user auth token (LOCAL, git-ignored)
 ├── requirements.txt      # List of dependencies
 └── README.md             # Project documentation
 ```

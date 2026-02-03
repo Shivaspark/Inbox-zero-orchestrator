@@ -23,6 +23,32 @@ from google.adk.runners import InMemoryRunner
 nest_asyncio.apply()
 load_dotenv()
 
+# --- Required API keys (read from environment/GitHub Secrets) ---
+def _require_env_var(name: str) -> str:
+    """Return the env var value or raise in CI; show a dev-friendly warning locally."""
+    val = os.getenv(name)
+    if not val:
+        # In CI we want a hard failure so workflows fail fast when a secret is missing
+        if os.getenv("CI"):
+            raise RuntimeError(f"Missing required environment variable: {name}.\nSet repository secret `{name}` in GitHub (see README).")
+        # For local dev, surface a Streamlit warning but continue (developers can use `.env`)
+        try:
+            st.warning(f"Environment variable `{name}` not set. For local dev copy `.env.example` → `.env` and add `{name}`.")
+        except Exception:
+            # If Streamlit isn't available (e.g. during unit tests), raise a clear error instead
+            raise RuntimeError(f"Missing required environment variable: {name}. Set `{name}` in your environment or in `.env` for local dev.")
+    else:
+        # Don't print the full secret — only show the last 6 characters for debugging
+        masked = f"****{val[-6:]}" if len(val) > 6 else "****"
+        try:
+            st.info(f"Using `{name}` (last6: {masked})")
+        except Exception:
+            pass
+    return val
+
+# Read the Google API key (preferred from environment / GitHub Secrets)
+GOOGLE_API_KEY = _require_env_var("GOOGLE_API_KEY")
+
 # ==========================================
 # 1. GMAIL AUTH & HELPER FUNCTIONS
 # ==========================================

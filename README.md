@@ -74,6 +74,8 @@ Copy `./.env.example` to `./.env`, add your real key locally, and do NOT commit 
 GOOGLE_API_KEY=your_actual_api_key_here
 ```
 
+GitHub / CI: set a repository secret named `GOOGLE_API_KEY` (used by the `verify-secrets.yml` workflow). The app prefers `GOOGLE_API_KEY` from the environment (GitHub Secrets in CI, `.env` for local dev).
+
 B. Gmail OAuth Credentials
 Go to the Google Cloud Console.
 
